@@ -17,11 +17,6 @@ protocol  RefreshDelegate {
     func agree()
 }
 class HomeViewController: UIViewController, CLLocationManagerDelegate,RefreshDelegate{
-    
-    //master uid
-    //Ms5fGEsy4wWBl9n4Pg9nRFFbjxF3
-    //https://gocafein-c430b.firebaseapp.com/__/auth/handler
-    //AIzaSyAIMXPld8jSXo115zhiku7sIBbtoiOdnDw
 
     func agree() {
         let loading = NVActivityIndicatorView(frame: CGRect(x: self.view.center.x - 25  , y: self.view.center.y - 30 , width: 60 , height: 60), type: .pacman, color: .systemYellow, padding: .pi)
