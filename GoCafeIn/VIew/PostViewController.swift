@@ -43,18 +43,7 @@ class PostViewController: UIViewController, UITextFieldDelegate, CLLocationManag
             
         return true
     }
-    
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//
-//        postImage.isHidden = false
-//        addPhotoButton.isHidden = false
-//    }
-//    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-//        postImage.isHidden = false
-//        addPhotoButton.isHidden = false
-//        return true
-//    }
-   
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         if textField == menuField {
