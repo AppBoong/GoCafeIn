@@ -127,6 +127,13 @@
 * 사용자가 프로필을 바꿨을시 게시물의 사용자 정보가 바뀌어야 하는 문제
   * 게시물 업로드시 사용자의 정보를 uid만 올려 게시물을 가져올때 바뀐 사용자의 정보를 바로바로 가져오게 함
 * 게시물을 불러올때 사용자의 uid를 통해 정보를 한번더 불러와야 하기 때문에 `cell`에 정보가 다 안담긴 채로 `reload`되는 문제
-  * `dispatch` + 로딩 이미지 
+  * 2초뒤에 `cell`을 띄우고 로딩 되는동안은 `loadingView`를 넣어 해결
+  ```Swift
+  DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+          self.suggestTabelView.reloadData()
+          loading.stopAnimating()              
+  }
+  ```
+  
 
 
