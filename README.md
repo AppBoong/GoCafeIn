@@ -176,7 +176,7 @@
             post.uid = posts["author"]["uid"].stringValue
           DatabaseManager.shared.getUserInfo(uid: posts["author"]["uid"].stringValue) { (username, profilePic) in
                 post.username = username
-                post.profileImage = profilePic
+                post.profileImage = profilePic  // 데이터베이스에서 가져온 uid로 한번더 
             }
             ...
       }
