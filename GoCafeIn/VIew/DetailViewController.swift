@@ -54,7 +54,7 @@ class DetailViewController: UIViewController, CLLocationManagerDelegate, GMSMapV
     var postuid : String?
     var likeCount : Int?
     var currentArea : String?
-    let masterUid = "Ms5fGEsy4wWBl9n4Pg9nRFFbjxF3"
+    let masterUid = ""
     override func viewWillAppear(_ animated: Bool) {
         
         determineMyCurrentLocation()
