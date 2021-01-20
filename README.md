@@ -117,9 +117,35 @@
   ```
 
 ## Trouble Shooting
-* 애플 심사 리젝
-  * 유저가 컨텐츠를 올리는 서비스의 경우 eula동의 필요
-  * 불건전한 사용자, 컨텐츠를 차단할수 있는 기능과 신고할 수 있는 기능 필요
+### 애플 심사 리젝
+* 유저가 컨텐츠를 올리는 서비스의 경우 eula동의 필요
+  * 최초 로그인시 eula동의 팝업뷰를 띄우고 동의를 누르면 database에 기록하여 다음 로그인시에는 팝업뷰가 안뜨도록 함
+  ```Swift
+  override func viewDidLoad() {
+        super.viewDidLoad()
+        let uid = Auth.auth().currentUser?.uid
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            DatabaseManager.shared.getAgree(uid: uid!) { (agree) in
+                if agree == false {    //최초 로그인시 팝업뷰를 띄워준다
+                    let eula = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "EULAViewController") as! EULAViewController
+                    eula.modalPresentationStyle = .overFullScreen
+                    eula.delegate = self
+                    self.present(eula, animated: true, completion: nil)
+                }else {     
+                    self.determineMyCurrentLocation { (area, city) in
+                        self.leftItem(area: area , city: city, action : #selector(self.navButton) )
+                        self.getSuggest(myarea: area) {
+                            self.suggestTabelView.reloadData()
+                            loading.stopAnimating()
+                        }
+                    }
+                }
+            }
+        }
+    }
+  ```
+* 불건전한 사용자, 컨텐츠를 차단할수 있는 기능과 신고할 수 있는 기능 필요
+---
 * 게시물 좋아요 누르기 기능
   * 눌렀을때 버튼의 색이 채워지고 좋아요 갯수가 +1 되어야함
   * 좋아요 누를시 내 정보에 좋아요 누른 게시물의 정보가 담겨야함
