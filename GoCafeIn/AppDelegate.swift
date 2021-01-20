@@ -17,8 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         FirebaseApp.configure()
-        GMSServices.provideAPIKey("AIzaSyAfMHS_sKTYQb6U7hMkuyc1GY10PS1x6-0")
-        GMSPlacesClient.provideAPIKey("AIzaSyAfMHS_sKTYQb6U7hMkuyc1GY10PS1x6-0")
+        GMSServices.provideAPIKey("")
+        GMSPlacesClient.provideAPIKey("")
         GADMobileAds.sharedInstance().start(completionHandler: nil)
         if #available(iOS 13.0, *) {
               
