@@ -131,7 +131,7 @@
                     eula.modalPresentationStyle = .overFullScreen
                     eula.delegate = self
                     self.present(eula, animated: true, completion: nil)
-                }else {     
+                }else {     //데이터베이스에 동의한 유저라고 기록되어 있으면 바로 게시물을 
                     self.determineMyCurrentLocation { (area, city) in
                         self.leftItem(area: area , city: city, action : #selector(self.navButton) )
                         self.getSuggest(myarea: area) {
