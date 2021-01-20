@@ -145,7 +145,52 @@
     }
   ```
 * 불건전한 사용자, 컨텐츠를 차단할수 있는 기능과 신고할 수 있는 기능 필요
-  * 게시물뷰와 유저 프로필뷰에 신고하기와 차단하기 버튼을 구현하여 신고하기를 누르면 데이터 베이스에 기록되고 차단하기를 누르면 그 유저가 올린 게시물은 더이상 안보이게 
+  * 게시물뷰와 유저 프로필뷰에 신고하기와 차단하기 버튼을 구현하여 신고하기를 누르면 데이터 베이스에 기록되고 차단하기를 누르면 그 유저가 올린 게시물은 더이상 안보이게 함
+  * 마스터 계정을 만들어 마스터 계정으로 로그인시 홈화면에 차단된 게시물들이 뜨게 만들어 확인과 삭제가 가능하게 함
+  ```Swift
+  if uid == self.masterUid {
+                DatabaseManager.shared.getReportedPostId { (post) in
+                    if post == [""]{
+                        
+                    }
+                    else{
+                    for i in post{
+                        DatabaseManager.shared.getPosts(url: "https://gocafein-c430b.firebaseio.com/allPosts/\(i).json", method: .get) { (posts) in
+                                let post = PostModel()
+                                post.postImage = posts["photo"].stringValue
+                                post.caption = posts["caption"].stringValue
+                                post.uid = posts["author"]["uid"].stringValue
+                              DatabaseManager.shared.getUserInfo(uid: posts["author"]["uid"].stringValue) { (username, profilePic) in
+                                    post.username = username
+                                    post.profileImage = profilePic
+                                }
+                                post.postid = posts["postid"].stringValue
+                                post.cafename = posts["cafename"].stringValue
+                                post.menu = posts["menu"].stringValue
+                                post.type = posts["type"].stringValue
+                                post.adress = posts["adress"].stringValue
+                                post.area = posts["area"].stringValue
+                                post.city = posts["city"].stringValue
+                                post.long = posts["long"].doubleValue
+                                post.lat = posts["lat"].doubleValue
+                                post.rate = posts["rate"].doubleValue
+                                post.date = posts["postedDate"].stringValue
+                                if uid == nil {
+                                    post.liked = false
+                                }else{
+                                    post.liked = posts["likedUser"][uid!].boolValue
+                                }
+                                let like = posts["likedUser"].dictionaryValue
+                                let likeTrue = like.map {$0.1.boolValue}
+                                let countLike = likeTrue.filter {$0 == true}.count
+                                post.likeCount = countLike
+                                self.postList.append(post)
+                        }
+                    }
+                }
+             }
+         }
+    ```
 ---
 * 게시물 좋아요 누르기 기능
   * 눌렀을때 버튼의 색이 채워지고 좋아요 갯수가 +1 되어야함
