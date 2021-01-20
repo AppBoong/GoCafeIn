@@ -88,7 +88,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate,RefreshDel
   
     var myLat = CLLocationManager().location?.coordinate.latitude
     var myLong = CLLocationManager().location?.coordinate.longitude
-    let masterUid = "Ms5fGEsy4wWBl9n4Pg9nRFFbjxF3"
+    let masterUid = ""
 
     let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
 
