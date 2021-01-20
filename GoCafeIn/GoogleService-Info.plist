@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>190645524191-56gsmqi0ib5656gta9cotbgtiu1ngf5p.apps.googleusercontent.com</string>
+	<string></string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.190645524191-56gsmqi0ib5656gta9cotbgtiu1ngf5p</string>
+	<string></string>
 	<key>API_KEY</key>
-	<string>AIzaSyAqX5l2bT1J7MiQqDe72vCSeOErJj5xIUc</string>
+	<string></string>
 	<key>GCM_SENDER_ID</key>
 	<string>190645524191</string>
 	<key>PLIST_VERSION</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:190645524191:ios:03e6e1637fea806fa27b6a</string>
+	<string></string>
 	<key>DATABASE_URL</key>
 	<string>https://gocafein-c430b.firebaseio.com</string>
 </dict>
