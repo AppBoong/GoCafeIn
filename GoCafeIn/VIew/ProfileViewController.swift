@@ -92,10 +92,8 @@ class ProfileViewController: UIViewController,ProfileChangeDelegate,FollowDelega
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        //ca-app-pub-2254515568525719~5829283273 - 앱id
-        //"ca-app-pub-2254515568525719/7042099075" - 광고단위id
-       
-        interstitial = GADInterstitial(adUnitID: "ca-app-pub-2254515568525719/7042099075")
+
+        interstitial = GADInterstitial(adUnitID: "")
         let request = GADRequest()
         interstitial.load(request)
         let loading = NVActivityIndicatorView(frame: CGRect(x: self.view.center.x - 25  , y: self.view.center.y - 30 , width: 60 , height: 60), type: .pacman, color: .systemYellow, padding: .pi)
