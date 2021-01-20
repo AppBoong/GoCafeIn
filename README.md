@@ -131,7 +131,7 @@
                     eula.modalPresentationStyle = .overFullScreen
                     eula.delegate = self
                     self.present(eula, animated: true, completion: nil)
-                }else {     //데이터베이스에 동의한 유저라고 기록되어 있으면 바로 게시물을 
+                }else {     //데이터베이스에 동의한 유저라고 기록되어 있으면 바로 게시물을 띄우준다
                     self.determineMyCurrentLocation { (area, city) in
                         self.leftItem(area: area , city: city, action : #selector(self.navButton) )
                         self.getSuggest(myarea: area) {
@@ -167,7 +167,21 @@
     }
   ```
 * 사용자가 프로필을 바꿨을시 게시물의 사용자 정보가 바뀌어야 하는 문제
-  * 게시물 업로드시 사용자의 정보를 uid만 올려 게시물을 가져올때 바뀐 사용자의 정보를 바로바로 가져오게 함
+  * 게시물 업로드시 사용자의 정보를 `uid`만 저장해 게시물을 가져올때 바뀐 사용자의 정보를 바로바로 가져오게 함
+  ```Swift
+  for i in post{
+    DatabaseManager.shared.getPosts(url: "", method: .get) { (posts) in
+            let post = PostModel()
+            ...
+            post.uid = posts["author"]["uid"].stringValue
+          DatabaseManager.shared.getUserInfo(uid: posts["author"]["uid"].stringValue) { (username, profilePic) in
+                post.username = username
+                post.profileImage = profilePic
+            }
+            ...
+      }
+  }
+  ```
 * 게시물을 불러올때 사용자의 uid를 통해 정보를 한번더 불러와야 하기 때문에 `cell`에 정보가 다 안담긴 채로 `reload`되는 문제
   * 2초뒤에 `cell`을 띄우고 로딩 되는동안 `loadingView`를 넣어 해결
   ```Swift
