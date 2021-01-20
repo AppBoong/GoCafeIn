@@ -147,59 +147,29 @@
 * 불건전한 사용자, 컨텐츠를 차단할수 있는 기능과 신고할 수 있는 기능 필요
   * 게시물뷰와 유저 프로필뷰에 신고하기와 차단하기 버튼을 구현하여 신고하기를 누르면 데이터 베이스에 기록되고 차단하기를 누르면 그 유저가 올린 게시물은 더이상 안보이게 함
   * 마스터 계정을 만들어 마스터 계정으로 로그인시 홈화면에 차단된 게시물들이 뜨게 만들어 확인과 삭제가 가능하게 함
-  ```Swift
-  if uid == self.masterUid {
-                DatabaseManager.shared.getReportedPostId { (post) in
-                    if post == [""]{
-                        
-                    }
-                    else{
-                    for i in post{
-                        DatabaseManager.shared.getPosts(url: "https://gocafein-c430b.firebaseio.com/allPosts/\(i).json", method: .get) { (posts) in
-                                let post = PostModel()
-                                post.postImage = posts["photo"].stringValue
-                                post.caption = posts["caption"].stringValue
-                                post.uid = posts["author"]["uid"].stringValue
-                              DatabaseManager.shared.getUserInfo(uid: posts["author"]["uid"].stringValue) { (username, profilePic) in
-                                    post.username = username
-                                    post.profileImage = profilePic
-                                }
-                                post.postid = posts["postid"].stringValue
-                                post.cafename = posts["cafename"].stringValue
-                                post.menu = posts["menu"].stringValue
-                                post.type = posts["type"].stringValue
-                                post.adress = posts["adress"].stringValue
-                                post.area = posts["area"].stringValue
-                                post.city = posts["city"].stringValue
-                                post.long = posts["long"].doubleValue
-                                post.lat = posts["lat"].doubleValue
-                                post.rate = posts["rate"].doubleValue
-                                post.date = posts["postedDate"].stringValue
-                                if uid == nil {
-                                    post.liked = false
-                                }else{
-                                    post.liked = posts["likedUser"][uid!].boolValue
-                                }
-                                let like = posts["likedUser"].dictionaryValue
-                                let likeTrue = like.map {$0.1.boolValue}
-                                let countLike = likeTrue.filter {$0 == true}.count
-                                post.likeCount = countLike
-                                self.postList.append(post)
-                        }
-                    }
-                }
-             }
-         }
-    ```
 ---
+### Other
 * 게시물 좋아요 누르기 기능
-  * 눌렀을때 버튼의 색이 채워지고 좋아요 갯수가 +1 되어야함
-  * 좋아요 누를시 내 정보에 좋아요 누른 게시물의 정보가 담겨야함
-  * 내가 좋아요 누른 게시물에 나의 정보가 저장되어야함
+  * 눌렀을때 버튼의 색이 채워지고 좋아요 갯수가 +1 되어야함 -> `cell`에 담긴 정보를 먼저 바꿔준후 데이터베이스와 
+  * 좋아요를 눌렀을때 게시물의 `likedUser` 노드에 내 `uid` 를 삽입 / 내정보의 `likedPosts` 노드에 게시물의 `postID` 삽입
+  ```Swift
+  /// DatabaseManager 클래스에서 데이터베이스와의 통신관련 함수를 다뤄준다
+  public func likeClicked(postUid : String,uid : String,area : String,city : String, postID : String,success : @escaping () -> ()) {
+        database.child("posts").child(area).child(city).child(postID).child("likedUser").updateChildValues([uid : true])
+        database.child("users").child(postUid).child("userPosts").child(postID).child("likedUser").updateChildValues([uid : true])
+        database.child("allPosts").child(postID).child("likedUser").updateChildValues([uid : true])
+        success()
+    }
+  public func savePostID(area : String,city : String,postID : String, uid : String) {
+        let postInfo = ["area" : area , "city" : city, "postID" : postID]
+        let likedPost = [ "\(postID)" : postInfo]
+        database.child("users").child(uid).child("likedPosts").updateChildValues(likedPost)
+    }
+  ```
 * 사용자가 프로필을 바꿨을시 게시물의 사용자 정보가 바뀌어야 하는 문제
   * 게시물 업로드시 사용자의 정보를 uid만 올려 게시물을 가져올때 바뀐 사용자의 정보를 바로바로 가져오게 함
 * 게시물을 불러올때 사용자의 uid를 통해 정보를 한번더 불러와야 하기 때문에 `cell`에 정보가 다 안담긴 채로 `reload`되는 문제
-  * 2초뒤에 `cell`을 띄우고 로딩 되는동안은 `loadingView`를 넣어 해결
+  * 2초뒤에 `cell`을 띄우고 로딩 되는동안 `loadingView`를 넣어 해결
   ```Swift
   DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
           self.suggestTabelView.reloadData()
