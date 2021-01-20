@@ -117,7 +117,7 @@
   ```
 
 ## Trouble Shooting
-### 애플심사 리젝사유
+### App Review Rejection Issue
 * 유저가 컨텐츠를 올리는 서비스의 경우 eula동의 필요
   * 최초 로그인시 eula동의 팝업뷰를 띄우고 동의를 누르면 database에 기록하여 다음 로그인시에는 팝업뷰가 안뜨도록 함
   ```Swift
